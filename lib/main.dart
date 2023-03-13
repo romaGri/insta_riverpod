@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:insta_riverpod/state/auth/backend/authenticator.dart';
 import 'firebase_options.dart';
+
+import 'dart:developer' as devtools show log;
+
+extension Log on Object {
+  void log() => devtools.log(toString());
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,53 +28,36 @@ class App extends StatelessWidget {
       title: 'Insta Riverpod',
       theme: ThemeData.dark(useMaterial3: true),
       darkTheme: ThemeData.dark(useMaterial3: true),
-      home: const MyHomePage(title: 'Insta Riverpod'),
+      home: const HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text('Insta Riverpod'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      body: Column(
+        children: [
+          TextButton(
+            onPressed: () async {
+              final result = await Authenticator().logInWithGoogle();
+              result.log();
+            },
+            child: const Text('Google'),
+          ),
+          TextButton(
+            onPressed: () async {
+              await Authenticator().logOut();
+            },
+            child: const Text('Google logOut'),
+          ),
+        ],
       ),
     );
   }
