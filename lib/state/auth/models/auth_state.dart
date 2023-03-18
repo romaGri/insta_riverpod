@@ -24,10 +24,6 @@ class AuthState {
         userId: userId,
       );
 
-  String func(AuthState a) {
-    return 'a';
-  }
-
   @override
   bool operator ==(covariant AuthState other) =>
       identical(this, other) ||
