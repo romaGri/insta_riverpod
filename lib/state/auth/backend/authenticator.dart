@@ -4,10 +4,15 @@ import 'package:insta_riverpod/state/auth/constants/const.dart';
 import 'package:insta_riverpod/state/auth/models/index.dart';
 
 class Authenticator {
+  const Authenticator();
+
   String? get userId => FirebaseAuth.instance.currentUser?.uid;
+
   bool get isAlreadyLoggedIn => userId != null;
+
   String get displayName =>
       FirebaseAuth.instance.currentUser?.displayName ?? '';
+
   String? get email => FirebaseAuth.instance.currentUser?.email;
 
   Future<void> logOut() async {
