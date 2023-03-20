@@ -5,11 +5,11 @@ import 'package:insta_riverpod/state/auth/providers/auth_state_provider.dart';
 import 'package:insta_riverpod/state/auth/providers/is_logged_in_provider.dart';
 import 'firebase_options.dart';
 
-import 'dart:developer' as devtools show log;
+// import 'dart:developer' as devtools show log;
 
-extension Log on Object {
-  void log() => devtools.log(toString());
-}
+// extension Log on Object {
+//   void log() => devtools.log(toString());
+// }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,7 +59,7 @@ class MainView extends StatelessWidget {
       ),
       body: Center(
         child: Consumer(
-          builder: (context, ref, child) => TextButton(
+          builder: (_, ref, child) => TextButton(
             onPressed: () async {
               ref.read(authStateProvider.notifier).logOut();
             },
