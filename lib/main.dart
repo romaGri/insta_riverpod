@@ -4,9 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_riverpod/state/auth/providers/auth_state_provider.dart';
 import 'package:insta_riverpod/state/auth/providers/is_logged_in_provider.dart';
 import 'package:insta_riverpod/state/providers/is_loading_provider.dart';
+import 'package:insta_riverpod/views/components/animations/index.dart';
 import 'package:insta_riverpod/views/components/loading/loading_screen.dart';
 import 'package:insta_riverpod/views/login/login_view.dart';
 import 'firebase_options.dart';
+import 'views/components/animations/content/empty_content_animation_view.dart';
 
 // import 'dart:developer' as devtools show log;
 
@@ -39,7 +41,6 @@ class App extends StatelessWidget {
       darkTheme: ThemeData.dark(useMaterial3: true),
       home: Consumer(
         builder: (context, ref, child) {
-
           ref.listen(
             isLoadingProvider,
             (_, isLoading) {
