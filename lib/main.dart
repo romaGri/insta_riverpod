@@ -39,6 +39,7 @@ class App extends StatelessWidget {
       darkTheme: ThemeData.dark(useMaterial3: true),
       home: Consumer(
         builder: (context, ref, child) {
+
           ref.listen(
             isLoadingProvider,
             (_, isLoading) {
