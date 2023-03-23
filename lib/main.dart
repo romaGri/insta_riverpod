@@ -5,6 +5,7 @@ import 'package:insta_riverpod/state/auth/providers/auth_state_provider.dart';
 import 'package:insta_riverpod/state/auth/providers/is_logged_in_provider.dart';
 import 'package:insta_riverpod/state/providers/is_loading_provider.dart';
 import 'package:insta_riverpod/views/components/loading/loading_screen.dart';
+import 'package:insta_riverpod/views/login/login_view.dart';
 import 'firebase_options.dart';
 
 // import 'dart:developer' as devtools show log;
@@ -38,10 +39,11 @@ class App extends StatelessWidget {
       darkTheme: ThemeData.dark(useMaterial3: true),
       home: Consumer(
         builder: (context, ref, child) {
-          ref.listen<bool>(
+
+          ref.listen(
             isLoadingProvider,
-            (previous, next) {
-              if (next) {
+            (_, isLoading) {
+              if (isLoading) {
                 LoadingScreen.instance().show(context: context);
               } else {
                 LoadingScreen.instance().hide();
@@ -79,34 +81,6 @@ class MainView extends StatelessWidget {
             child: const Text('Google logOut'),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login View'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Center(
-            child: Consumer(
-              builder: (context, ref, child) => TextButton(
-                onPressed: () async {
-                  ref.read(authStateProvider.notifier).loginWithGoogle();
-                },
-                child: const Text('Google'),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
