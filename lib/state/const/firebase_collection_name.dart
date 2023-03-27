@@ -1,9 +1,9 @@
-class FireBaseCollectionName {
+class FirebaseCollectionName {
   static const thumbnails = 'thumbnails';
   static const comments = 'comments';
   static const likes = 'likes';
   static const posts = 'posts';
   static const users = 'users';
 
-  const FireBaseCollectionName._();
+  const FirebaseCollectionName._();
 }
