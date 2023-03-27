@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:insta_riverpod/state/image_upload/models/file_type.dart';
 
 extension CollectionName on FileType {

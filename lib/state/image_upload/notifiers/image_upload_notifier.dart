@@ -11,7 +11,7 @@ import 'package:insta_riverpod/state/image_upload/extensions/get_collection_name
 import 'package:insta_riverpod/state/image_upload/extensions/get_image_data_aspect_ratio.dart';
 import 'package:insta_riverpod/state/image_upload/models/file_type.dart';
 import 'package:insta_riverpod/state/posts/models/post_payload.dart';
-import 'package:insta_riverpod/state/posts/post_settings.dart';
+import 'package:insta_riverpod/state/posts/post_setting.dart';
 import 'package:image/image.dart' as img;
 import 'package:uuid/uuid.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
@@ -25,7 +25,7 @@ class ImageUploadNotifier extends StateNotifier<bool> {
     required File file,
     required FileType fileType,
     required String message,
-    required Map<PostSettings, bool> postSettings,
+    required Map<PostSetting, bool> postSettings,
     required String userId,
   }) async {
     isLoading = true;
@@ -77,7 +77,7 @@ class ImageUploadNotifier extends StateNotifier<bool> {
     final thumbnailRef = FirebaseStorage.instance
         .ref()
         .child(userId)
-        .child(FireBaseCollectionName.thumbnails)
+        .child(FirebaseCollectionName.thumbnails)
         .child(fileName);
 
     final originalFileRef = FirebaseStorage.instance
@@ -91,7 +91,7 @@ class ImageUploadNotifier extends StateNotifier<bool> {
           await thumbnailRef.putData(thumbnailUint8List);
       final thumbnailStorageId = thumbnailUploadTask.ref.name;
 
-      final originalFileUploadTask = await thumbnailRef.putFile(file);
+      final originalFileUploadTask = await originalFileRef.putFile(file);
       final originalFileStorageId = originalFileUploadTask.ref.name;
 
       final postPayload = PostPayload(
@@ -102,15 +102,13 @@ class ImageUploadNotifier extends StateNotifier<bool> {
         fileType: fileType,
         fileName: fileName,
         aspectRatio: thumbnailAspectRatio,
+        postSettings: postSettings,
         thumbnailStorageId: thumbnailStorageId,
         originalFileStorageId: originalFileStorageId,
-        postSettings: postSettings,
       );
-
       await FirebaseFirestore.instance
-          .collection(FireBaseCollectionName.posts)
+          .collection(FirebaseCollectionName.posts)
           .add(postPayload);
-
       return true;
     } catch (_) {
       return false;

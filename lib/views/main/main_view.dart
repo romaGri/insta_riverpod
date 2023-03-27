@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:insta_riverpod/state/auth/providers/auth_state_provider.dart';
+import 'package:insta_riverpod/state/image_upload/helpers/image_picker_helper.dart';
+import 'package:insta_riverpod/state/image_upload/models/file_type.dart';
+import 'package:insta_riverpod/state/posts/providers/post_settings_provider.dart';
 import 'package:insta_riverpod/views/components/constants/strings.dart';
 import 'package:insta_riverpod/views/components/dialogs/alert_dialog_model.dart';
 import 'package:insta_riverpod/views/components/dialogs/logout_dialog.dart';
+import 'package:insta_riverpod/views/create_new_post/create_new_post_view.dart';
 import 'package:insta_riverpod/views/tabs/user_posts/user_posts_view.dart';
 
 class MainView extends ConsumerStatefulWidget {
@@ -27,13 +31,57 @@ class _MainViewState extends ConsumerState<MainView> {
               icon: const FaIcon(
                 FontAwesomeIcons.film,
               ),
-              onPressed: () {},
+              onPressed: () async {
+                final videoFile =
+                    await ImagePickerHelper.pickVideoFromGallery();
+                if (videoFile == null) {
+                  return;
+                }
+
+                ref.refresh(postSettingsProvider);
+
+                if (!mounted) {
+                  return;
+                }
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CreateNewPostView(
+                      fileToPost: videoFile,
+                      fileType: FileType.video,
+                    ),
+                  ),
+                );
+              },
             ),
             IconButton(
               icon: const FaIcon(
                 FontAwesomeIcons.photoFilm,
               ),
-              onPressed: () {},
+              onPressed: () async {
+                final imageFile =
+                    await ImagePickerHelper.pickImageFromGallery();
+                if (imageFile == null) {
+                  return;
+                }
+
+                ref.refresh(postSettingsProvider);
+
+                if (!mounted) {
+                  return;
+                }
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CreateNewPostView(
+                      fileToPost: imageFile,
+                      fileType: FileType.image,
+                    ),
+                  ),
+                );
+              },
             ),
             IconButton(
               icon: const Icon(

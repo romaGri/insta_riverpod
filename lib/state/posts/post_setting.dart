@@ -1,6 +1,6 @@
 import 'package:insta_riverpod/views/components/constants/strings.dart';
 
-enum PostSettings {
+enum PostSetting {
   allowLikes(
     title: Strings.allowLikesTitle,
     description: Strings.allowLikesDescription,
@@ -16,7 +16,7 @@ enum PostSettings {
   final String description;
   final String storageKey;
 
-  const PostSettings({
+  const PostSetting({
     required this.title,
     required this.description,
     required this.storageKey,

@@ -12,7 +12,7 @@ class Post {
   final String fileName;
   final FileType fileType;
   final double aspectRatio;
-  final Map<PostSettings, bool> postSettings;
+  final Map<PostSetting, bool> postSettings;
   final String thumbnailStorageId;
   final String originalFileStorageId;
 
@@ -24,23 +24,23 @@ class Post {
         createdAt = (json[PostKey.createdAt] as Timestamp).toDate(),
         thumbnailUrl = json[PostKey.thumbnailUrl],
         fileUrl = json[PostKey.fileUrl],
+        fileType = FileType.values.firstWhere(
+          (fileType) => fileType.name == json[PostKey.fileType],
+          orElse: () => FileType.image,
+        ),
         fileName = json[PostKey.fileName],
         aspectRatio = json[PostKey.aspectRatio],
         thumbnailStorageId = json[PostKey.thumbnailStorageId],
         originalFileStorageId = json[PostKey.originalFileStorageId],
-        fileType = FileType.values.firstWhere(
-          (element) => element.name == json[PostKey.fileType],
-          orElse: () => FileType.image,
-        ),
         postSettings = {
           for (final entry in json[PostKey.postSettings].entries)
-            PostSettings.values
-                    .firstWhere((element) => element.storageKey == entry.key):
-                entry.value,
+            PostSetting.values.firstWhere(
+              (element) => element.storageKey == entry.key,
+            ): entry.value,
         };
 
-  bool get isLikesAllowed => postSettings[PostSettings.allowLikes] ?? false;
+  bool get isLikesAllowed => postSettings[PostSetting.allowLikes] ?? false;
 
   bool get isCommentsAllowed =>
-      postSettings[PostSettings.allowComments] ?? false;
+      postSettings[PostSetting.allowComments] ?? false;
 }

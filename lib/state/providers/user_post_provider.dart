@@ -16,12 +16,17 @@ final userPostsProvider = StreamProvider.autoDispose<Iterable<Post>>((ref) {
   };
 
   final sub = FirebaseFirestore.instance
-      .collection(FireBaseCollectionName.posts)
+      .collection(
+        FirebaseCollectionName.posts,
+      )
       .orderBy(
-        FireBaseFieldNames.createdAt,
+        FirebaseFieldName.createdAt,
         descending: true,
       )
-      .where(PostKey.userId, isEqualTo: userId)
+      .where(
+        PostKey.userId,
+        isEqualTo: userId,
+      )
       .snapshots()
       .listen((event) {
     final documents = event.docs;

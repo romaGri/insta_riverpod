@@ -13,15 +13,15 @@ class UserInfoStorage {
   }) async {
     try {
       final userInfo = await FirebaseFirestore.instance
-          .collection(FireBaseCollectionName.users)
-          .where(FireBaseFieldNames.userId)
+          .collection(FirebaseCollectionName.users)
+          .where(FirebaseFieldName.userId)
           .limit(1)
           .get();
 
       if (userInfo.docs.isNotEmpty) {
         await userInfo.docs.first.reference.update({
-          FireBaseFieldNames.displayName: displayName,
-          FireBaseFieldNames.email: email ?? '',
+          FirebaseFieldName.displayName: displayName,
+          FirebaseFieldName.email: email ?? '',
         });
         return true;
       }
@@ -33,7 +33,7 @@ class UserInfoStorage {
       );
 
       await FirebaseFirestore.instance
-          .collection(FireBaseCollectionName.users)
+          .collection(FirebaseCollectionName.users)
           .add(payload);
 
       return true;
